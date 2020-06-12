@@ -12,6 +12,8 @@ namespace KiwoomExample
 {
     public partial class Form1 : Form
     {
+        private string SCREEN_NO_ESTIMATED_ASSETS = "1001";
+
         public Form1()
         {
             InitializeComponent();
@@ -39,6 +41,58 @@ namespace KiwoomExample
         }
 
         //***********************************************************************************************************************
+        // 공통 함수 선언부
+        //***********************************************************************************************************************
+        private string convertMoneyFormat(string price)
+        {
+            return String.Format("{0:#,###0}", long.Parse(price));
+        }
+
+        private string convertPercentFormat(string percent)
+        {
+            return String.Format("{0:f2}", double.Parse(percent));
+        }
+
+        private string getSeletedAccountNo()
+        {
+            return comboAccountList.SelectedItem.ToString().Trim();
+        }
+
+        private void initAccountList()
+        {
+            int cnt = int.Parse(kiwoomApi.GetLoginInfo("ACCOUNT_CNT"));
+
+            if (cnt > 0)
+            {
+                comboAccountList.Items.AddRange(kiwoomApi.GetLoginInfo("ACCLIST").Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries));
+
+                comboAccountList.SelectedIndex = 0;
+            }
+        }
+
+        //***********************************************************************************************************************
+        // 키움 OpenApi TR요청 선언부
+        //***********************************************************************************************************************
+        private void requestTrEstimatedAssets()
+        {
+            kiwoomApi.SetInputValue("계좌번호", getSeletedAccountNo());
+            kiwoomApi.SetInputValue("비밀번호", "");
+            kiwoomApi.SetInputValue("상장폐지조회구분", "0");
+
+            // TR명 : 추정자산조회요청
+            kiwoomApi.CommRqData("trEstimatedAssets", "OPW00003", 0, SCREEN_NO_ESTIMATED_ASSETS);
+        }
+
+        //***********************************************************************************************************************
+        // 키움 OpenApi TR요청 결과 처리부
+        //***********************************************************************************************************************
+        private void trEstimatedAssets(AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
+        {
+            string 추정예탁자산 = kiwoomApi.GetCommData(e.sTrCode, e.sRQName, 0, "추정예탁자산").Trim();
+            labelEstimatedAssetsVal.Text = convertMoneyFormat(추정예탁자산) + "원";
+        }
+
+        //***********************************************************************************************************************
         // 키움 OpenApi 이벤트 선언부
         //***********************************************************************************************************************
         private void kiwoomApi_OnReceiveMsg(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEvent e)
@@ -55,12 +109,17 @@ namespace KiwoomExample
             {
                 // 계좌 비밀번호 입력창 띄움
                 kiwoomApi.KOA_Functions("ShowAccountWindow", "");
+
+                // 로그인 완료 후 처리 로직
+                initAccountList();
+                requestTrEstimatedAssets(); // 추정자산조회
             }
         }
 
         private void kiwoomApi_OnReceiveTrData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
         {
-
+            Console.WriteLine("RQName : " + e.sRQName);
+            this.GetType().GetMethod(e.sRQName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).Invoke(this, new object[] { e });
         }
 
         private void kiwoomApi_OnReceiveRealData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveRealDataEvent e)

@@ -32,12 +32,16 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.kiwoomApi = new AxKHOpenAPILib.AxKHOpenAPI();
             this.listBoxLog = new System.Windows.Forms.ListBox();
+            this.labelAccountList = new System.Windows.Forms.Label();
+            this.comboAccountList = new System.Windows.Forms.ComboBox();
+            this.labelEstimatedAssets = new System.Windows.Forms.Label();
+            this.labelEstimatedAssetsVal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.kiwoomApi)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(0, 0);
+            this.btnLogin.Location = new System.Drawing.Point(12, 0);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 36);
             this.btnLogin.TabIndex = 0;
@@ -70,11 +74,50 @@
             this.listBoxLog.Size = new System.Drawing.Size(776, 94);
             this.listBoxLog.TabIndex = 2;
             // 
+            // labelAccountList
+            // 
+            this.labelAccountList.AutoSize = true;
+            this.labelAccountList.Location = new System.Drawing.Point(9, 51);
+            this.labelAccountList.Name = "labelAccountList";
+            this.labelAccountList.Size = new System.Drawing.Size(80, 18);
+            this.labelAccountList.TabIndex = 3;
+            this.labelAccountList.Text = "계좌목록";
+            // 
+            // comboAccountList
+            // 
+            this.comboAccountList.FormattingEnabled = true;
+            this.comboAccountList.Location = new System.Drawing.Point(95, 48);
+            this.comboAccountList.Name = "comboAccountList";
+            this.comboAccountList.Size = new System.Drawing.Size(161, 26);
+            this.comboAccountList.TabIndex = 4;
+            // 
+            // labelEstimatedAssets
+            // 
+            this.labelEstimatedAssets.AutoSize = true;
+            this.labelEstimatedAssets.Location = new System.Drawing.Point(9, 87);
+            this.labelEstimatedAssets.Name = "labelEstimatedAssets";
+            this.labelEstimatedAssets.Size = new System.Drawing.Size(116, 18);
+            this.labelEstimatedAssets.TabIndex = 5;
+            this.labelEstimatedAssets.Text = "추정예탁자산";
+            // 
+            // labelEstimatedAssetsVal
+            // 
+            this.labelEstimatedAssetsVal.AutoSize = true;
+            this.labelEstimatedAssetsVal.Location = new System.Drawing.Point(131, 87);
+            this.labelEstimatedAssetsVal.Name = "labelEstimatedAssetsVal";
+            this.labelEstimatedAssetsVal.Size = new System.Drawing.Size(36, 18);
+            this.labelEstimatedAssetsVal.TabIndex = 6;
+            this.labelEstimatedAssetsVal.Text = "0원";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelEstimatedAssetsVal);
+            this.Controls.Add(this.labelEstimatedAssets);
+            this.Controls.Add(this.comboAccountList);
+            this.Controls.Add(this.labelAccountList);
             this.Controls.Add(this.listBoxLog);
             this.Controls.Add(this.kiwoomApi);
             this.Controls.Add(this.btnLogin);
@@ -82,6 +125,7 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.kiwoomApi)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -90,6 +134,10 @@
         private System.Windows.Forms.Button btnLogin;
         private AxKHOpenAPILib.AxKHOpenAPI kiwoomApi;
         private System.Windows.Forms.ListBox listBoxLog;
+        private System.Windows.Forms.Label labelAccountList;
+        private System.Windows.Forms.ComboBox comboAccountList;
+        private System.Windows.Forms.Label labelEstimatedAssets;
+        private System.Windows.Forms.Label labelEstimatedAssetsVal;
     }
 }
 
